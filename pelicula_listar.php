@@ -68,7 +68,7 @@
                   </a>
                   <ul class="dropdown-menu">
                     <li><a class="dropdown-item text-primary" href="genero_crear.php">Crear</a></li>
-                    <li><a class="dropdown-item text-primary text-muted">Ver</a></li>
+                    <li><a class="dropdown-item text-primary" href="genero_listar.php">Ver</a></li>
                   </ul>
                 </li>                
                 <li class="nav-item dropdown">

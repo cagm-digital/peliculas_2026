@@ -89,7 +89,7 @@
         </div>
         </nav>    
     </div>
-    <div class="container">        
+    <div class="container mt-5">        
         <h1 class="text-center text-danger">Creación de Género</h1>
         <form action="genero_creado.php" method="POST">				
             <div class="form-group row justify-content-center">

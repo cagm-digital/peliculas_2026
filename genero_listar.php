@@ -46,7 +46,7 @@
     </style>  
  </head>
   <body>
-    <div class="container-fluid">
+    <div class="container-fluid mb-4">
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
             <a class="navbar-brand text-danger" href="index.php">
@@ -98,7 +98,7 @@
     </div>
 
     <div class="container mt-5">        
-        <h1 class="text-center text-danger mb-4">Géneros Cinematográficos</h1>
+        <h1 class="text-center text-danger mb-4">Listado de Géneros</h1>
         
         <div class="row justify-content-center">
             <div class="col-md-8">
@@ -132,9 +132,12 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="mt-3">
-                    <a href="genero_crear.php" class="btn btn-outline-danger">Agregar Nuevo Género</a>
-                </div>
+   
+                <div class="form-group row justify-content-center mt-2">
+                    <div class="col-sm-12 d-grid">
+                        <a href="genero_crear.php" class="btn btn-outline-danger">Agregar Nuevo Género</a>                    
+                    </div>
+                </div>	                              
             </div>
         </div>
     </div>

@@ -91,7 +91,7 @@
         </nav>    
     </div>
 
-    <div class="container">        
+    <div class="container mt-5">     
         <h1 class="text-center text-danger">Creación de Idioma</h1>
         
         <form action="idioma_creado.php" method="POST">		

@@ -90,7 +90,7 @@
         </nav>    
     </div>
 
-    <div class="container mt-4">        
+    <div class="container mt-5">        
     <?php
         $idioma = $_REQUEST['inputIdioma'];
         $idCone = conexion();	

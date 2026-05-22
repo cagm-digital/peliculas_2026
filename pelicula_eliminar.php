@@ -72,7 +72,7 @@
                   </a>
                   <ul class="dropdown-menu">
                     <li><a class="dropdown-item text-primary" href="genero_crear.php">Crear</a></li>
-                    <li><a class="dropdown-item text-primary text-muted">Ver</a></li>
+                    <li><a class="dropdown-item text-primary" href="genero_listar.php">Ver</a></li>
                   </ul>
                 </li>                
                 <li class="nav-item dropdown">
@@ -116,7 +116,7 @@
                             <input type="hidden" name="id" value="<?php echo $datos['id']; ?>">
                             <div class="d-grid gap-2">
                                 <button type="submit" class="btn btn-danger">Sí, Eliminar Registro</button>
-                                <a href="genero_listar.php" class="btn btn-outline-secondary">Cancelar y Volver</a>
+                                <a href="pelicula_listar.php" class="btn btn-outline-secondary">Cancelar y Volver</a>
                             </div>
                         </form>
                     </div>

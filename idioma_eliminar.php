@@ -71,7 +71,7 @@
                   </a>
                   <ul class="dropdown-menu">
                     <li><a class="dropdown-item text-primary" href="genero_crear.php">Crear</a></li>
-                    <li><a class="dropdown-item text-primary text-muted">Ver</a></li>
+                    <li><a class="dropdown-item text-primary" href="genero_listar.php">Ver</a></li>
                   </ul>
                 </li>                
                 <li class="nav-item dropdown">
@@ -101,7 +101,7 @@
     </div>
 
 
-    <div class="container">        
+    <div class="container mt-5">        
         <h1 class="text-center text-danger mb-4">Eliminar Idioma</h1>
         <div class="row justify-content-center">
             <div class="col-md-5 shadow p-4 rounded bg-white border-top border-danger border-4">
