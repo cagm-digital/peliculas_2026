@@ -3,7 +3,7 @@
 	session_start(); // Iniciando sesión para el manejo de perfiles de usuario
 	
     // Verificar si el usuario ha iniciado sesión y tiene el perfil de administrador
-    if (!isset($_SESSION['perfil']))
+  if (!isset($_SESSION['perfil']))
 	{
 		header('location:login.php'); // Redirigir al formulario de inicio de sesión si no se ha iniciado sesión
 	}

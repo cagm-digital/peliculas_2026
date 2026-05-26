@@ -1,11 +1,19 @@
 <?php 
-    require ("funciones.php");	
-    session_start(); 
+    require ("funciones.php");	// Funciones escritas en PHP
+    session_start(); // Iniciando sesión para el manejo de perfiles de usuario
     
-    if (!isset($_SESSION['perfil']) || $_SESSION['perfil'] != 1) {
-        header('location:index.php'); 
-        exit;
+      // Verificar si el usuario ha iniciado sesión y tiene el perfil de administrador
+    if (!isset($_SESSION['perfil']))
+    {
+      header('location:login.php'); // Redirigir al formulario de inicio de sesión si no se ha iniciado sesión
     }
+    else
+    {
+      if ($_SESSION['perfil'] != 1) // Verificar si el perfil del usuario no es de administrador
+          {
+              header('location:index.php'); // Redirigir a la página de inicio si el usuario no tiene el perfil de administrador
+          }				
+    }	
 
     $idCone = conexion();
 
