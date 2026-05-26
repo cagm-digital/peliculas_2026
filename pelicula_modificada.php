@@ -1,50 +1,65 @@
-<?php //Código para realizar sesiones en PHP 
-	require ("funciones.php");	// Funciones escritas en PHP
-	session_start(); // Iniciando sesión para el manejo de perfiles de usuario
-	
-    // Verificar si el usuario ha iniciado sesión y tiene el perfil de administrador
-    if (!isset($_SESSION['perfil']))
-	{
-		header('location:login.php'); 
-	}
-	else
-	{
-		if ($_SESSION['perfil'] != 1) 
-        {
-            header('location:index.php'); 
-        }				
-	}	
+<?php 
+    require ("funciones.php");	
+    session_start(); 
+    
+    // Verificar si el usuario ha iniciado sesión y es administrador
+    if (!isset($_SESSION['perfil']) || $_SESSION['perfil'] != 1) {
+        header('location:index.php'); 
+        exit;
+    }
 
-	$id_usuario = $_SESSION['id_usuario']; 
-	$nombre_perfil = $_SESSION['nombre_perfil']; 	
-	$nombre_acceso = $_SESSION['nombre_acceso']; 
-    
-    // Conexión a la base de datos
-    $idCone = conexion();
-    
-    // Consulta para traer los generos con el id y nombre del género
-    $sql = "SELECT * FROM pelicula ORDER BY nombre";
-    $query = mysqli_query($idCone, $sql);
-?>    
-    
+    // Verificar si llegaron los datos obligatorios por POST
+    if (isset($_POST['id']) && isset($_POST['nombre'])) {
+        $id = $_POST['id'];
+        $nombre = $_POST['nombre'];
+        $director = $_POST['director'];
+        $anio = $_POST['anio'];
+        $duracion = $_POST['duracion'];
+        $id_genero = $_POST['id_genero'];
+        $id_idioma = $_POST['id_idioma'];
+        $imagen = $_POST['imagen'];
+        $descripcion = $_POST['descripcion'];
+        
+        $idCone = conexion();
+        
+        // Sentencia corregida y refactorizada para incluir los nuevos campos del catálogo
+        $sql = "UPDATE pelicula SET 
+                nombre = '$nombre', 
+                director = '$director', 
+                anio = '$anio', 
+                duracion = '$duracion', 
+                id_genero = '$id_genero', 
+                id_idioma = '$id_idioma', 
+                imagen = '$imagen',
+                descripcion = '$descripcion' 
+                WHERE id = '$id'";
+                
+        $resultado = mysqli_query($idCone, $sql);
+    } else {
+        header('location:pelicula_listar.php');
+        exit;
+    }
+
+    $id_usuario = $_SESSION['id_usuario']; 
+    $nombre_perfil = $_SESSION['nombre_perfil']; 	
+    $nombre_acceso = $_SESSION['nombre_acceso'];     
+?>
+
 <!doctype html>
 <html lang="es">
- <head>
+  <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Listado de Películas - ITS 2026</title>
+    <title>Película Modificada - ITS 2026</title>
     <link rel="icon" type="image/png" href="icono.png">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
-      .card-img-top {
-          height: 400px;
-          object-fit: cover;
-      }
       .navbar-brand, .text-danger, .text-primary {
           font-weight: bold;
       }
-    </style>  
- </head>
+    </style>   
+  </head>
   <body>
     <div class="container-fluid mb-4">
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -86,7 +101,7 @@
                   </a>
                   <ul class="dropdown-menu">
                     <li><a class="dropdown-item text-danger" href="pelicula_crear.php">Crear</a></li>                                                            
-                    <li><a class="dropdown-item text-danger text-muted">Listar</a></li>
+                    <li><a class="dropdown-item text-danger" href="pelicula_listar.php">Listar</a></li>
                   </ul>
                 </li>                 
             </ul>
@@ -97,50 +112,33 @@
         </nav>        
     </div>
 
-    <div class="container mt-5">        
-        <h1 class="text-center text-danger">Listado de Películas</h1>
-        
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="table-responsive shadow-sm">
-                    <table class="table table-hover align-middle">
-                        <thead class="table-danger">
-                            <tr>
-                                <th scope="col" class="py-3">ID</th>
-                                <th scope="col" class="py-3">Película</th>
-                                <th scope="col" class="py-3 text-center">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php while($row = mysqli_fetch_array($query)): ?>
-                            <tr>
-                                <td class="fw-bold"># <?php echo $row['id']; ?></td>
-                                <td><?php echo $row['nombre']; ?></td>
-                                <td class="text-center">
-                                    <a href="pelicula_modificar.php?id=<?php echo $row['id']; ?>" 
-                                    class="btn btn-outline-warning btn-sm shadow-sm me-2">
-                                        <i class="bi bi-pencil-square"></i> Editar
-                                    </a>
-                                    
-                                    <a href="pelicula_eliminar.php?id=<?php echo $row['id']; ?>" 
-                                    class="btn btn-outline-danger btn-sm shadow-sm">
-                                        <i class="bi bi-trash"></i> Eliminar
-                                    </a>
-                                </td>
-                            </tr>
-                            <?php endwhile; ?>
-                        </tbody>
-                    </table>
+    <div class="container mt-5 text-center">
+        <div class="card shadow border-0 p-5 mx-auto" style="max-width: 500px;">
+            <?php if($resultado): ?>
+                <div class="mb-4">
+                    <i class="bi bi-check-circle-fill text-success" style="font-size: 4rem;"></i>
                 </div>
-                <div class="form-group row justify-content-center mt-2">
-                    <div class="col-sm-12 d-grid">
-                        <a href="pelicula_crear.php" class="btn btn-danger">Agregar Película</a>                    
-                    </div>
-                </div>	           
-            </div>
+                <h2 class="text-success fw-bold">Registro Modificado</h2>
+                <p class="text-muted">La película <strong><?php echo htmlspecialchars($nombre, ENT_QUOTES, 'UTF-8'); ?></strong> se actualizó completamente con sus nuevos detalles técnico-informativos.</p>
+            <?php else: ?>
+                <div class="mb-4">
+                    <i class="bi bi-exclamation-triangle-fill text-danger" style="font-size: 4rem;"></i>
+                </div>
+                <h2 class="text-danger fw-bold">No se pudo modificar</h2>
+                <p class="text-muted text-start small">
+                    <strong>Error:</strong> Ocurrió un problema de sintaxis o de base de datos al guardar las modificaciones.
+                </p>
+                <div class="alert alert-secondary small text-start mt-2">
+                    <code><?php echo mysqli_error($idCone); ?></code>
+                </div>
+            <?php endif; ?>
+            
+            <a href="pelicula_listar.php" class="btn btn-danger mt-4 w-100">
+                <i class="bi bi-arrow-left"></i> Volver al Listado
+            </a>
         </div>
     </div>
-
+    
     <?php mysqli_close($idCone); ?>
 
     <footer class="page-footer font-small mt-5 bg-light border-top">
@@ -152,6 +150,6 @@
             <br>Pereira - Colombia
         </div>	
     </footer>    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script> 
   </body>
 </html>

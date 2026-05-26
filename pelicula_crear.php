@@ -98,7 +98,7 @@
         </nav>    
     </div>
 
-    <div class="container">        
+    <div class="container mt-5">        
         <h1 class="text-center text-danger mb-4">Creación de Película</h1>
         
         <form action="pelicula_creada.php" method="POST" class="w-75 mx-auto">				            
